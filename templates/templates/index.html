@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spam Detector</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #2F284F;
+            color: white;
+        }
+        .text-accent-teal { color: #4EB5A9; }
+        .text-accent-purple { color: #6157E1; }
+        .bg-card { background-color: #374854; }
+        .bg-accent-teal { background-color: #4EB5A9; }
+        .bg-accent-purple { background-color: #6157E1; }
+        .border-accent-teal { border-color: #4EB5A9; }
+        .border-accent-purple { border-color: #6157E1; }
+        .result-box {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-[#2F284F] text-white">
+
+    <!-- Main Content Container -->
+    <div class="container mx-auto px-4 py-8 max-w-4xl min-h-screen flex flex-col items-center justify-center">
+
+        <!-- Navigation -->
+        <nav class="w-full flex justify-center mb-12">
+            <ul class="flex space-x-6 text-lg font-semibold">
+                <li><a href="#" class="nav-link hover:text-accent-teal transition-colors duration-300" data-page="home">Home</a></li>
+                <li><a href="#" class="nav-link hover:text-accent-teal transition-colors duration-300" data-page="detector">Detector</a></li>
+                <li><a href="#" class="nav-link hover:text-accent-teal transition-colors duration-300" data-page="about">About</a></li>
+            </ul>
+        </nav>
+
+        <!-- Dynamic Content Pages -->
+        <div id="content-area" class="w-full">
+            <!-- Content will be injected here by JavaScript -->
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contentArea = document.getElementById('content-area');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            // Pages content
+            const pages = {
+                home: `
+                    <div class="text-center">
+                        <h1 class="text-5xl md:text-6xl font-extrabold text-accent-purple">
+                            <span class="block animate-pulse">Email Spam Detector</span>
+                        </h1>
+                        <p class="mt-6 text-xl text-gray-300 max-w-3xl mx-auto">
+                            We have the ability to determine whether emails are spam or legitimate. Welcome to the email verification tool.
+                        </p>
+                        <button id="goToDetectorBtn" type="button" class="inline-block mt-8 bg-accent-teal hover:bg-opacity-80 transition-colors duration-300 text-white font-bold py-3 px-8 rounded-full shadow-lg">
+                            Go to Detector
+                        </button>
+                    </div>
+                `,
+                detector: `
+                    <div class="w-full bg-card rounded-2xl p-8 md:p-12 shadow-2xl">
+                        <h2 class="text-3xl font-bold mb-6 text-center text-accent-teal">Test Your Email</h2>
+                        <textarea id="emailInput" rows="8" class="w-full p-4 mb-4 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-accent-teal transition-colors duration-200" placeholder="Paste your email text here..."></textarea>
+                        
+                        <div class="mb-6">
+                            <label for="modelVersion" class="block mb-2 text-gray-300 font-medium">Choose Model Version:</label>
+                            <div class="relative">
+                                <select id="modelVersion" class="w-full p-3 rounded-lg text-gray-900 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-accent-teal appearance-none">
+                                    <option value="version-1">Version 1 - SVM (Support Vector Machine)</option>
+                                    <option value="version-2">Version 2 - Logistic Regression</option>
+                                    <option value="version-3">Version 3 - Naive Bayes</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 9l-1.414-1.414L10 12.121 5.757 7.879 4.343 9z"/></svg>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="detectSpam()" class="w-full bg-accent-purple text-white font-bold py-4 rounded-xl hover:bg-opacity-80 transition-colors duration-300 shadow-xl transform hover:scale-105">
+                            Detect
+                        </button>
+                        
+                        <div id="resultBox" class="mt-8 p-6 rounded-2xl hidden result-box">
+                            <p class="text-xl font-bold text-gray-200 mb-2">Result:</p>
+                            <p id="resultText" class="text-2xl font-bold"></p>
+                        </div>
+                    </div>
+                `,
+                about: `
+                    <div class="bg-card rounded-2xl p-8 md:p-12 shadow-2xl">
+                        <h2 class="text-3xl font-bold mb-6 text-center text-accent-teal">What is this project?</h2>
+                        <div class="text-gray-300 space-y-4">
+                            <p>The Email Spam Detector project is an artificial intelligence (AI) project designed to classify genuine emails from spam. It uses various machine learning models to identify the type of email.</p>
+                            <p>The goal of this project is to provide a simple and reliable service to check the security of your emails. You can choose from three different models to perform the check, each with its unique way of working.</p>
+                            <ul class="list-disc list-inside space-y-2 mt-4">
+                                <li><strong>SVM (Support Vector Machine):</strong> The most accurate model with balanced precision and recall; recommended for the best results.</li>
+                                <li><strong>Logistic Regression:</strong> Stable and interpretable model; slightly lower accuracy than SVM but still reliable.</li>
+                                <li><strong>Naive Bayes:</strong> Fast and lightweight; still very accurate, good for quick predictions.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            };
+
+            // Initial page load
+            let currentPage = 'home';
+            contentArea.innerHTML = pages[currentPage];
+            navLinks.forEach(link => {
+                if (link.dataset.page === currentPage) {
+                    link.classList.add('text-accent-teal');
+                }
+            });
+
+
+            // Navigation handler function
+            function navigateTo(page) {
+                contentArea.classList.remove('animate-fade-in');
+                contentArea.innerHTML = pages[page];
+                contentArea.classList.add('animate-fade-in');
+                navLinks.forEach(navLink => navLink.classList.remove('text-accent-teal'));
+                const activeLink = Array.from(navLinks).find(l => l.dataset.page === page);
+                if (activeLink) activeLink.classList.add('text-accent-teal');
+                currentPage = page;
+                // Re-attach detector button event if on home
+                if (page === 'home') {
+                    const btn = document.getElementById('goToDetectorBtn');
+                    if (btn) {
+                        btn.addEventListener('click', () => navigateTo('detector'));
+                    }
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const nextPage = e.target.dataset.page;
+                    if (nextPage) {
+                        navigateTo(nextPage);
+                    }
+                });
+            });
+
+            // Attach event to Go to Detector button on initial load
+            const btn = document.getElementById('goToDetectorBtn');
+            if (btn) {
+                btn.addEventListener('click', () => navigateTo('detector'));
+            }
+
+            // Global detectSpam function
+            window.detectSpam = async function() {
+                const text = document.getElementById("emailInput").value;
+                const version = document.getElementById("modelVersion").value;
+                const resultBox = document.getElementById("resultBox");
+                const resultText = document.getElementById("resultText");
+
+                resultBox.classList.add("hidden");
+                resultText.textContent = "";
+
+                if (!text.trim()) {
+                    resultText.textContent = "Please enter some email text.";
+                    resultText.className = "text-yellow-400 font-bold";
+                    resultBox.classList.remove("hidden");
+                    return;
+                }
+
+                resultText.textContent = "Detecting...";
+                resultText.className = "text-gray-400 font-bold";
+                resultBox.classList.remove("hidden");
+
+                try {
+                    const response = await fetch("/predict", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ message: text, version: version })
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        resultText.textContent = data.result;
+                        if (data.result.includes("Spam")) {
+                            resultText.className = "text-red-500 font-bold";
+                        } else {
+                            resultText.className = "text-green-500 font-bold";
+                        }
+                    } else {
+                        resultText.textContent = data.error || "An error occurred.";
+                        resultText.className = "text-red-500 font-bold";
+                    }
+                } catch (err) {
+                    resultText.textContent = "Network error. Please try again.";
+                    resultText.className = "text-red-500 font-bold";
+                }
+            }
+        });
+    </script>
+</body>
+</html>
